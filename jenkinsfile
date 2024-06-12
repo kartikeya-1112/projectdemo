@@ -23,6 +23,13 @@ pipeline {
             }
         }
     }
+    stage('Print PATH') {
+            steps {
+                script {
+                    echo "Current PATH: ${env.PATH}"
+                }
+            }
+        }
 
     post {
         success {
