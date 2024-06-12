@@ -6,6 +6,7 @@ stage('Print PATH')
             steps {
                 script {
                     echo "Current PATH: ${env.PATH}"
+                    echo "current path: ${JAVA_HOME}"
                 }
             }
         }
