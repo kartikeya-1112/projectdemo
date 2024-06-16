@@ -1,38 +1,33 @@
-pipeline {
-    agent any
 
-    stages {
-
-        stage('Checkout') {
-            steps {
-                // Checkout the code from the repository
-                git branch: 'main', credentialsId: 'my-credentials', url: 'https://github.com/kartikeya-1112/projectdemo'
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                // Compile the Java program
-                sh 'javac HelloWorld.java'
-            }
-        }
-
-        stage('Run') {
-            steps {
-                // Run the Java program
-                sh 'java HelloWorld'
-            }
-        }
+node {
+    // Define environment variables if needed
+    def gitUrl = 'https://github.com/yourusername/your-java-project.git'
+    def gitBranch = 'main'
+    def credentialsId = 'my-credentials'
+    
+    // Stage: Checkout
+    stage('Checkout') {
+        git branch: gitBranch, credentialsId: credentialsId, url: gitUrl
     }
     
-
-    post {
-        success {
+    // Stage: Build
+    stage('Build') {
+        // Compile Java program
+        sh 'javac HelloWorld.java'
+    }
+    
+    // Stage: Run
+    stage('Run') {
+        // Run Java program
+        sh 'java HelloWorld'
+    }
+    
+    // Post-actions
+    try {
+        // Define success block
+        stage('Success') {
             echo 'Build and Run completed successfully!'
             archiveArtifacts artifacts: 'HelloWorld.class', onlyIfSuccessful: true
         }
-        failure {
-            echo 'Build or Run failed.'
-        }
-    }
-}
+    } catch (Exception e) {
+        // Define failure block
