@@ -13,14 +13,14 @@ pipeline {
         stage('Build') {
             steps {
                 // Compile the Java program
-                sh 'javac HelloWorld.java'
+                javac HelloWorld.java
             }
         }
 
         stage('Run') {
             steps {
                 // Run the Java program
-                sh 'java HelloWorld'
+                java HelloWorld
             }
         }
     }
